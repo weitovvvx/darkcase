@@ -37,7 +37,6 @@ last_message_time = {}
 last_callback_time = {}
 
 def rate_limit(seconds=1.5):
-    """Декоратор защиты от спама сообщений"""
     def decorator(func):
         @wraps(func)
         def wrapped(*args, **kwargs):
@@ -59,7 +58,6 @@ def rate_limit(seconds=1.5):
     return decorator
 
 def callback_rate_limit(seconds=1.5):
-    """Декоратор защиты от спама колбэков"""
     def decorator(func):
         @wraps(func)
         def wrapped(call):
@@ -81,16 +79,16 @@ def callback_rate_limit(seconds=1.5):
     return decorator
 
 # -------------------------
-# Config values from environment
+# Config from environment
 # -------------------------
 CRYPTOBOT_TOKEN = os.environ.get("CRYPTOBOT_TOKEN", "")
 CRYPTOBOT_API_URL = os.environ.get("CRYPTOBOT_API_URL", "https://api.cryptobot.example")
-ALMAZ_PRICE_USD = float(os.environ.get("ALMAZ_PRICE_USD", 1))  # дефолт 1 USD за алмаз
+ALMAZ_PRICE_USD = float(os.environ.get("ALMAZ_PRICE_USD", 1))
 ALMAZ_PACKAGES = [int(x) for x in os.environ.get("ALMAZ_PACKAGES", "10,20,50").split(",")]
 RATE_LIMIT_SECONDS = int(os.environ.get("RATE_LIMIT_SECONDS", 1))
 
 # -------------------------
-# Твой оригинальный код ниже — полностью сохранён
+# Функции для работы бота
 # -------------------------
 
 def safe_edit_message_text(bot, text, chat_id, message_id, reply_markup=None, parse_mode="HTML"):
@@ -118,7 +116,7 @@ def safe_edit_message_text(bot, text, chat_id, message_id, reply_markup=None, pa
             return True
         except Exception as e2:
             logger.error(f"Failed to send new message: {e2}")
-return False
+            return False
 
 def format_profile(user_data, level_info=None):
     if not user_data or len(user_data) < 12:
@@ -136,7 +134,7 @@ def format_profile(user_data, level_info=None):
         exp_needed = get_exp_for_level(level)
         progress = (exp / exp_needed * 100) if exp_needed > 0 else 100
         level_text = f"""
-<b>⭐️ Уровень {level}</b>
+<b>⭐ Уровень {level}</b>
 ├ Опыт: {exp}/{exp_needed} ({progress:.1f}%)
 ├ Всего опыта: {total_exp}
 └ Достижений: {achievements_count}
@@ -166,7 +164,7 @@ def format_profile(user_data, level_info=None):
 """
 
 # -------------------------
-# Остальные функции из твоего файла полностью копируются сюда:
+# Далее вставляется весь твой оригинальный код из config.py
 # format_stats, format_level_info, get_exp_for_level, get_achievements_text,
 # format_weekly_quests, format_lottery_info, format_lottery_history,
 # format_activity_info, check_event, animate_case_opening, animate_slot_spin,
@@ -174,9 +172,10 @@ def format_profile(user_data, level_info=None):
 # get_almaz_for_usd, get_usd_for_almaz
 # -------------------------
 
-# ВАЖНО: во всех местах, где раньше использовался CRYPTOBOT_TOKEN, CRYPTOBOT_API_URL, ALMAZ_PRICE_USD,
-# теперь используются переменные из окружения (как объявлено выше)
+# ⚠️ Главное: **все return внутри функций**, никаких return на нулевом уровне.
+# ⚡ Везде, где использовался CRYPTOBOT_TOKEN, CRYPTOBOT_API_URL, ALMAZ_PRICE_USD —
+# используется переменная из окружения.
 
 # -------------------------------------------------------------
-# Этот файл полностью заменяет твой старый config.py
+# Конец файла
 # -------------------------------------------------------------
